@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        #chat-container {
+            width: 300px;
+            height: 200px; /* Fixed height */
+            margin: 20px auto;
+            padding: 10px;
+            border: 1px solid #ccc;
+            overflow-y: auto;
+        }
+
+        .bubble {
+            background-color: #f2f2f2;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            word-wrap: break-word;
+        }
+
+        .user-bubble {
+            background-color: #4CAF50;
+            color: white;
+            text-align: right;
+        }
+
+        .bot-bubble {
+            background-color: #2196F3;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div id="chat-container"></div>
+    <input type="text" id="userInput" placeholder="Type your message">
+    <button onclick="sendMessage()">Send Message</button>
+
+    <script>
+        function sendMessage() {
+            var userInput = document.getElementById('userInput');
+            var messageText = userInput.value;
+
+            if (messageText.trim() === '') {
+                return; // Don't send empty messages
+            }
+
+            // Add user's message to the chat
+            appendMessage('user', messageText);
+            userInput.value = ''; // Clear the input field
+
+            // Simulate a response (you can replace this with your actual response logic)
+            setTimeout(function() {
+                receiveMessage('Bot', 'Thanks for your message!');
+            }, 500);
+        }
+
+        function receiveMessage(sender, message) {
+            // Add bot's message to the chat
+            appendMessage(sender, message);
+
+            // Scroll to the bottom to show new messages
+            scrollToBottom();
+        }
+
+        function appendMessage(sender, message) {
+            var chatContainer = document.getElementById('chat-container');
+            var bubble = document.createElement('div');
+            
+            if (sender === 'user') {
+                bubble.classList.add('bubble', 'user-bubble');
+            } else {
+                bubble.classList.add('bubble', 'bot-bubble');
+            }
+
+            bubble.textContent = sender + ': ' + message;
+            chatContainer.appendChild(bubble);
+        }
+
+        function scrollToBottom() {
+            var chatContainer = document.getElementById('chat-container');
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+    </script>
+</body>
+</html>
